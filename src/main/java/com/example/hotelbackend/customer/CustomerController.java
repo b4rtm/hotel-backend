@@ -22,6 +22,7 @@ public class CustomerController {
 
     @PostMapping
     ResponseEntity<CustomerDto> createCustomer(@RequestBody CustomerDto customer){
+        System.out.println("HALOOOOOOOOOOOOOOO");
         CustomerDto savedCustomer = customerService.saveCustomer(customer);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(savedCustomer.getId()).toUri();
         return ResponseEntity.created(uri).body(savedCustomer);
