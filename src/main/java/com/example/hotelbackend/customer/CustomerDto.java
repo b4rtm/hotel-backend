@@ -1,21 +1,11 @@
 package com.example.hotelbackend.customer;
 
-import com.example.hotelbackend.booking.Booking;
-import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
-@Entity
-@NoArgsConstructor
 @Getter
 @Setter
-public class Customer {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class CustomerDto {
     private Long id;
     private String name;
     private String surname;
@@ -26,7 +16,5 @@ public class Customer {
     private String postCode;
     private String password;
     private String phoneNumber;
-    @OneToMany(mappedBy = "customer")
-    private List<Booking> bookings;
 
 }
