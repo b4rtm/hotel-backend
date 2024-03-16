@@ -3,6 +3,7 @@ package com.example.hotelbackend.room;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RoomService {
@@ -17,5 +18,9 @@ public class RoomService {
 
     List<RoomDto> getRooms(){
         return roomRepository.findAll().stream().map(roomDtoMapper::map).toList();
+    }
+
+    Optional<RoomDto> getRoomById(Long id){
+        return roomRepository.findById(id).map(roomDtoMapper::map);
     }
 }

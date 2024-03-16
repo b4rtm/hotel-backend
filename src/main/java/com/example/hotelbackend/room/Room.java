@@ -12,6 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
+@Table(name = "rooms")
 public class Room {
 
     @Id
@@ -20,6 +21,7 @@ public class Room {
     private String name;
     private int capacity;
     private int pricePerNight;
+    private String imagePath;
     @OneToMany(mappedBy = "room")
     private List<Booking> bookings;
 

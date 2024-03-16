@@ -10,4 +10,5 @@ public class RoomDto {
     private String name;
     private int capacity;
     private int pricePerNight;
+    private String imagePath;
 }

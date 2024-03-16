@@ -2,6 +2,7 @@ package com.example.hotelbackend.room;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,5 +24,10 @@ public class RoomController {
         if (rooms.isEmpty())
             return ResponseEntity.notFound().build();
         return ResponseEntity.ok(rooms);
+    }
+
+    @GetMapping("{id}")
+    ResponseEntity<RoomDto> getRoomById(@PathVariable Long id){
+        return roomService.getRoomById(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 }
