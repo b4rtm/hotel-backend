@@ -11,4 +11,5 @@ public class RoomDto {
     private int capacity;
     private int pricePerNight;
     private String imagePath;
+    private String description;
 }
