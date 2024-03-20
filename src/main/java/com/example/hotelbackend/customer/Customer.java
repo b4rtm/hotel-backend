@@ -2,6 +2,7 @@ package com.example.hotelbackend.customer;
 
 import com.example.hotelbackend.booking.Booking;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,8 +19,10 @@ public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
     private String surname;
+    @Email
     private String email;
     private String pesel;
     private String address;
