@@ -3,6 +3,8 @@ package com.example.hotelbackend.customer;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CustomerService {
 
@@ -22,5 +24,9 @@ public class CustomerService {
         customer.setPassword(passwordHash);
         Customer savedCustomer = customerRepository.save(customer);
         return customerDtoMapper.map(savedCustomer);
+    }
+
+    List<CustomerDto> getUsers(){
+        return customerRepository.findAll().stream().map(customerDtoMapper::map).peek(customerDto -> customerDto.setPassword("")).toList();
     }
 }
