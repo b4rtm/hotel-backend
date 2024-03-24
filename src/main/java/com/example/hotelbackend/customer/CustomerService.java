@@ -27,6 +27,13 @@ public class CustomerService {
     }
 
     List<CustomerDto> getUsers(){
-        return customerRepository.findAll().stream().map(customerDtoMapper::map).peek(customerDto -> customerDto.setPassword("")).toList();
+        return customerRepository.findAll().stream().map(customerDtoMapper::map).toList();
+    }
+
+    CustomerDto replaceCustomer(Long customerId, CustomerDto customerDto){
+        Customer customer = customerDtoMapper.map(customerDto);
+        customer.setId(customerId);
+        Customer updatedCustomer = customerRepository.save(customer);
+        return customerDtoMapper.map(updatedCustomer);
     }
 }
