@@ -36,4 +36,8 @@ public class CustomerService {
         Customer updatedCustomer = customerRepository.save(customer);
         return customerDtoMapper.map(updatedCustomer);
     }
+
+    void deleteCustomer(Long id){
+        customerRepository.deleteById(id);
+    }
 }
