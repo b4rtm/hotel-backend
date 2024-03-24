@@ -33,4 +33,20 @@ public class RoomService {
                     return Optional.of(roomDto);
                 });
     }
+
+    RoomDto saveRoom(RoomDto roomDto){
+        Room savedRoom = roomRepository.save(roomDtoMapper.map(roomDto));
+        return roomDtoMapper.map(savedRoom);
+    }
+
+    RoomDto replaceRoom(Long roomId, RoomDto roomDto){
+        Room room = roomDtoMapper.map(roomDto);
+        room.setId(roomId);
+        Room updatedRoom = roomRepository.save(room);
+        return roomDtoMapper.map(updatedRoom);
+    }
+
+    void deleteRoom(Long id){
+        roomRepository.deleteById(id);
+    }
 }

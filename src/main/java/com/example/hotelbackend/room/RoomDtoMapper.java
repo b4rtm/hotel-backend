@@ -15,4 +15,14 @@ public class RoomDtoMapper {
         roomDto.setDescription(room.getDescription());
         return roomDto;
     }
+
+    Room map(RoomDto dto){
+        Room room = new Room();
+        room.setId(dto.getId());
+        room.setName(dto.getName());
+        room.setCapacity(dto.getCapacity());
+        room.setPricePerNight(dto.getPricePerNight());
+        room.setDescription(dto.getDescription());
+        return room;
+    }
 }
