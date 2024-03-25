@@ -18,10 +18,10 @@ public class RoomDtoMapper {
 
     Room map(RoomDto dto){
         Room room = new Room();
-        room.setId(dto.getId());
         room.setName(dto.getName());
         room.setCapacity(dto.getCapacity());
         room.setPricePerNight(dto.getPricePerNight());
+        room.setImagePath(dto.getImagePath());
         room.setDescription(dto.getDescription());
         return room;
     }

@@ -1,9 +1,12 @@
 package com.example.hotelbackend.room;
 
+import com.example.hotelbackend.image.ImageService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.io.IOException;
 import java.net.URI;
 import java.util.List;
 
@@ -12,9 +15,11 @@ import java.util.List;
 public class RoomController {
 
     private final RoomService roomService;
+    private final ImageService imageService;
 
-    public RoomController(RoomService roomService) {
+    public RoomController(RoomService roomService, ImageService imageService) {
         this.roomService = roomService;
+        this.imageService = imageService;
     }
 
     @GetMapping
@@ -26,8 +31,18 @@ public class RoomController {
     }
 
     @PostMapping
-    ResponseEntity<RoomDto> createRoom(@RequestBody RoomDto room){
-        RoomDto savedRoom = roomService.saveRoom(room);
+    ResponseEntity<RoomDto> createRoom(@RequestParam("name") String name,
+                                       @RequestParam("capacity") int capacity,
+                                       @RequestParam("pricePerNight") int pricePerNight,
+                                       @RequestParam("description") String description,
+                                       @RequestParam("image") MultipartFile image){
+        String filePath = null;
+        try {
+            filePath = imageService.saveFile(image, name);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        RoomDto savedRoom = roomService.saveRoom(new RoomDto(name, capacity, pricePerNight, filePath, description));
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(savedRoom.getId()).toUri();
         return ResponseEntity.created(uri).body(savedRoom);
     }

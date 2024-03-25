@@ -35,7 +35,8 @@ public class RoomService {
     }
 
     RoomDto saveRoom(RoomDto roomDto){
-        Room savedRoom = roomRepository.save(roomDtoMapper.map(roomDto));
+        Room room = roomDtoMapper.map(roomDto);
+        Room savedRoom = roomRepository.save(room);
         return roomDtoMapper.map(savedRoom);
     }
 
