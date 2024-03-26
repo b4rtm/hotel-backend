@@ -32,4 +32,10 @@ public class BookingController {
         }
         return ResponseEntity.ok(bookingDtoList);
     }
+
+    @DeleteMapping("/{id}")
+    ResponseEntity<?> deleteBooking(@PathVariable Long id){
+        bookingService.deleteBooking(id);
+        return ResponseEntity.noContent().build();
+    }
 }

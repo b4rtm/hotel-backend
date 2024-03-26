@@ -35,6 +35,7 @@ public class BookingDtoMapper {
 
     BookingDto map(Booking booking){
         BookingDto bookingDto = new BookingDto();
+        bookingDto.setId(booking.getId());
         bookingDto.setCustomer(booking.getCustomer());
         bookingDto.setRoom(booking.getRoom());
         bookingDto.setCheckOutDate(booking.getCheckOutDate());

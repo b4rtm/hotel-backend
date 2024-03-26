@@ -34,4 +34,8 @@ public class BookingService {
     public List<BookingDto> getAllBookings(){
        return bookingRepository.findAllBookingsWithCustomerAndRoom().stream().map(bookingDtoMapper::map).toList();
     }
+
+    void deleteBooking(Long id) {
+        bookingRepository.deleteById(id);
+    }
 }
