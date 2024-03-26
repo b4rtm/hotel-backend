@@ -1,12 +1,9 @@
 package com.example.hotelbackend.room;
 
-import com.example.hotelbackend.booking.Booking;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -23,7 +20,5 @@ public class Room {
     private int pricePerNight;
     private String imagePath;
     private String description;
-    @OneToMany(mappedBy = "room")
-    private List<Booking> bookings;
 
 }

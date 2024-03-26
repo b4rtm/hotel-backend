@@ -1,14 +1,14 @@
 package com.example.hotelbackend.booking;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 
-@Controller
+@RestController
+@RequestMapping("/bookings")
 public class BookingController {
 
     private final BookingService bookingService;
@@ -17,10 +17,19 @@ public class BookingController {
         this.bookingService = bookingService;
     }
 
-    @PostMapping("/bookings")
-    ResponseEntity<String> bookRoom(@RequestBody BookingDto booking){
+    @PostMapping
+    ResponseEntity<String> bookRoom(@RequestBody BookingWithIdsDto booking){
         Long bookingId = bookingService.saveBooking(booking);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(bookingId).toUri();
         return ResponseEntity.created(uri).body("Success");
+    }
+
+    @GetMapping
+    ResponseEntity<List<BookingDto>> getBookings(){
+        List<BookingDto> bookingDtoList = bookingService.getAllBookings();
+        if(bookingDtoList.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(bookingDtoList);
     }
 }

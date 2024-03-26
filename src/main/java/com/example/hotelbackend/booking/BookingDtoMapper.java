@@ -19,7 +19,7 @@ public class BookingDtoMapper {
         this.customerRepository = customerRepository;
     }
 
-    Booking map(BookingDto dto) {
+    Booking map(BookingWithIdsDto dto) {
         Booking booking = new Booking();
         long differenceInDays = ChronoUnit.DAYS.between(dto.getCheckInDate(), dto.getCheckOutDate());
         Room room = roomRepository.findById(dto.getRoomId()).orElseThrow(() -> new IllegalStateException("Room not found"));
@@ -31,5 +31,14 @@ public class BookingDtoMapper {
         booking.setCheckOutDate(dto.getCheckOutDate());
         booking.setCustomer(customer);
         return booking;
+    }
+
+    BookingDto map(Booking booking){
+        BookingDto bookingDto = new BookingDto();
+        bookingDto.setCustomer(booking.getCustomer());
+        bookingDto.setRoom(booking.getRoom());
+        bookingDto.setCheckOutDate(booking.getCheckOutDate());
+        bookingDto.setCheckInDate(booking.getCheckInDate());
+        return bookingDto;
     }
 }

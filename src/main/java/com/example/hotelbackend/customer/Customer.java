@@ -1,13 +1,10 @@
 package com.example.hotelbackend.customer;
 
-import com.example.hotelbackend.booking.Booking;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -30,7 +27,7 @@ public class Customer {
     private String postCode;
     private String password;
     private String phoneNumber;
-    @OneToMany(mappedBy = "customer")
-    private List<Booking> bookings;
+//    @OneToMany(mappedBy = "customer")
+//    private List<Booking> bookings;
 
 }

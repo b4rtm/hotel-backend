@@ -3,6 +3,7 @@ package com.example.hotelbackend.booking;
 import com.example.hotelbackend.booking.date.BookingDateDto;
 import com.example.hotelbackend.booking.date.BookingDateDtoMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -19,13 +20,18 @@ public class BookingService {
         this.bookingDateDtoMapper = bookingDateDtoMapper;
     }
 
-    Long saveBooking(BookingDto bookingDto){
-        Booking booking = bookingDtoMapper.map(bookingDto);
+    Long saveBooking(BookingWithIdsDto bookingWithIdsDto){
+        Booking booking = bookingDtoMapper.map(bookingWithIdsDto);
         Booking savedBooking = bookingRepository.save(booking);
         return savedBooking.getId();
     }
 
     public List<BookingDateDto> getBookingsDateForRoom(Long id){
         return bookingRepository.findByRoomId(id).stream().map(bookingDateDtoMapper::map).toList();
+    }
+
+    @Transactional
+    public List<BookingDto> getAllBookings(){
+       return bookingRepository.findAllBookingsWithCustomerAndRoom().stream().map(bookingDtoMapper::map).toList();
     }
 }

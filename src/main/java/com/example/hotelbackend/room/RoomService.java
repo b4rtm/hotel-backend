@@ -43,6 +43,7 @@ public class RoomService {
     RoomDto replaceRoom(Long roomId, RoomDto roomDto){
         Room room = roomDtoMapper.map(roomDto);
         room.setId(roomId);
+        room.setImagePath(roomRepository.findById(roomId).map(Room::getImagePath).orElse("http://localhost:8080/images/room1.jpg"));
         Room updatedRoom = roomRepository.save(room);
         return roomDtoMapper.map(updatedRoom);
     }
