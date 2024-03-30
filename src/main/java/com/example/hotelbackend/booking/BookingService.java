@@ -32,7 +32,7 @@ public class BookingService {
 
     @Transactional
     public List<BookingDto> getAllBookings(){
-       return bookingRepository.findAllBookingsWithCustomerAndRoom().stream().map(bookingDtoMapper::map).toList();
+       return bookingRepository.findAll().stream().map(bookingDtoMapper::map).toList();
     }
 
     void deleteBooking(Long id) {
