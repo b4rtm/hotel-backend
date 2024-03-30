@@ -18,7 +18,7 @@ public class CustomerService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    CustomerDto saveCustomer(CustomerDto dto){
+    public CustomerDto saveCustomer(CustomerDto dto){
         Customer customer = customerDtoMapper.map(dto);
         String passwordHash = passwordEncoder.encode(customer.getPassword());
         customer.setPassword(passwordHash);

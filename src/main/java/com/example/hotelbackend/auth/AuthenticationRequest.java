@@ -1,4 +1,4 @@
-package com.example.hotelbackend.customer;
+package com.example.hotelbackend.auth;
 
 import lombok.*;
 

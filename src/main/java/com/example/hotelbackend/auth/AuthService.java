@@ -1,5 +1,7 @@
-package com.example.hotelbackend.customer;
+package com.example.hotelbackend.auth;
 
+import com.example.hotelbackend.customer.Customer;
+import com.example.hotelbackend.customer.CustomerRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;

@@ -1,6 +1,6 @@
 package com.example.hotelbackend.config;
 
-import com.example.hotelbackend.customer.AuthService;
+import com.example.hotelbackend.auth.AuthService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

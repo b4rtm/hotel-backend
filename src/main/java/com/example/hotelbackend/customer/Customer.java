@@ -6,9 +6,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -16,6 +18,7 @@ import java.util.Collection;
 @Setter
 @Table(name = "customers")
 public class Customer implements UserDetails {
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,11 +34,8 @@ public class Customer implements UserDetails {
     private String postCode;
     private String password;
     private String phoneNumber;
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
-    }
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @Override
     public String getUsername() {
@@ -62,4 +62,13 @@ public class Customer implements UserDetails {
         return true;
     }
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(role.name()));
+    }
+
+    public enum Role {
+        USER,
+        ADMIN
+    }
 }
