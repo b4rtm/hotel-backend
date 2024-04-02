@@ -4,6 +4,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CustomerService {
@@ -29,6 +30,15 @@ public class CustomerService {
     List<CustomerDto> getUsers(){
         return customerRepository.findAll().stream().map(customerDtoMapper::map).toList();
     }
+
+    Optional<CustomerDto> getCustomerByEmail(String email){
+        Optional<Customer> customerOptional = customerRepository.findByEmail(email);
+        if (customerOptional.isPresent()) {
+            Customer customer = customerOptional.get();
+            customer.setPassword("");
+            return Optional.of(customerDtoMapper.map(customer));
+        }
+        return Optional.empty();    }
 
     CustomerDto replaceCustomer(Long customerId, CustomerDto customerDto){
         Customer customer = customerDtoMapper.map(customerDto);

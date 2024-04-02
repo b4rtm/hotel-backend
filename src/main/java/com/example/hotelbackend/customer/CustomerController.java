@@ -1,6 +1,8 @@
 package com.example.hotelbackend.customer;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,6 +25,14 @@ public class CustomerController {
         if(users.isEmpty())
             return ResponseEntity.notFound().build();
         return ResponseEntity.ok(users);
+    }
+
+    @GetMapping("/getUser")
+    ResponseEntity<CustomerDto> getUser(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+
+        return customerService.getCustomerByEmail(email).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
     @PutMapping("/{id}")

@@ -43,7 +43,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> loginUser(@RequestBody AuthenticationRequest request) throws JSONException {
+    public ResponseEntity<String> loginUser(@RequestBody AuthenticationRequest request) {
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
@@ -54,7 +54,12 @@ public class AuthController {
         UserDetails userDetails = authService.loadUserByUsername(request.getUsername());
         String token = jwtUtil.generateToken(userDetails.getUsername());
 
-        JSONObject tokenResponse = new JSONObject("{\"token\": \"" + token + "\"}");
+        JSONObject tokenResponse;
+        try {
+            tokenResponse = new JSONObject("{\"token\": \"" + token + "\"}");
+        } catch (JSONException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("json problem");
+        }
         return ResponseEntity.ok(tokenResponse.toString());
     }
 }
