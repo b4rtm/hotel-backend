@@ -52,7 +52,7 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("user unauthorized");
         }
         UserDetails userDetails = authService.loadUserByUsername(request.getUsername());
-        String token = jwtUtil.generateToken(userDetails.getUsername());
+        String token = jwtUtil.generateToken(userDetails);
 
         JSONObject tokenResponse;
         try {

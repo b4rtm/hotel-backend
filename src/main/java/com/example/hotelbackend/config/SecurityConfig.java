@@ -3,6 +3,7 @@ package com.example.hotelbackend.config;
 import com.example.hotelbackend.customer.CustomerRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -30,8 +31,16 @@ public class SecurityConfig {
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(requests -> requests
+                .requestMatchers(HttpMethod.DELETE, "/bookings/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.GET, "/users/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.PUT, "/users/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "/users/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.POST, "/rooms").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.PUT, "/rooms/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "/rooms/**").hasRole("ADMIN")
                 .requestMatchers("/**").permitAll().anyRequest().authenticated()
         ).addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+
         http.csrf(csrf -> csrf.disable());
         return http.build();
     }
