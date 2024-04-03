@@ -31,6 +31,7 @@ public class CustomerDtoMapper {
         dto.setCity(customer.getCity());
         dto.setPostCode(customer.getPostCode());
         dto.setPassword(customer.getPassword());
+        dto.setRole(customer.getRole());
         return dto;
     }
 }
