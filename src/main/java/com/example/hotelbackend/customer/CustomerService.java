@@ -23,6 +23,7 @@ public class CustomerService {
         Customer customer = customerDtoMapper.map(dto);
         String passwordHash = passwordEncoder.encode(customer.getPassword());
         customer.setPassword(passwordHash);
+        customer.setRole(Customer.Role.ROLE_USER);
         Customer savedCustomer = customerRepository.save(customer);
         return customerDtoMapper.map(savedCustomer);
     }
