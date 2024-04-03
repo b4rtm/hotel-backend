@@ -16,4 +16,5 @@ public class CustomerDto {
     private String postCode;
     private String password;
     private String phoneNumber;
+    private Customer.Role role;
 }
