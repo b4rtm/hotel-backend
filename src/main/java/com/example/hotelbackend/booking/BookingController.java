@@ -21,7 +21,7 @@ public class BookingController {
     ResponseEntity<String> bookRoom(@RequestBody BookingWithIdsDto booking){
         Long bookingId = bookingService.saveBooking(booking);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(bookingId).toUri();
-        return ResponseEntity.created(uri).body("Success");
+        return ResponseEntity.created(uri).body(bookingId.toString());
     }
 
     @GetMapping
@@ -32,6 +32,12 @@ public class BookingController {
         }
         return ResponseEntity.ok(bookingDtoList);
     }
+
+    @GetMapping("/{id}")
+    ResponseEntity<BookingDto> getBookingById(@PathVariable Long id){
+        return bookingService.getBookingById(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+    }
+
 
     @DeleteMapping("/{id}")
     ResponseEntity<?> deleteBooking(@PathVariable Long id){

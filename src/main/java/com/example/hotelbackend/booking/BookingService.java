@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BookingService {
@@ -28,6 +29,10 @@ public class BookingService {
 
     public List<BookingDateDto> getBookingsDateForRoom(Long id){
         return bookingRepository.findByRoomId(id).stream().map(bookingDateDtoMapper::map).toList();
+    }
+
+    public Optional<BookingDto> getBookingById(Long id){
+        return bookingRepository.findById(id).map(bookingDtoMapper::map);
     }
 
     @Transactional
