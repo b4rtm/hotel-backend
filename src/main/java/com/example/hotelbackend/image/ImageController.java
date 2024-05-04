@@ -1,6 +1,7 @@
 package com.example.hotelbackend.image;
 
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.PathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -20,11 +21,9 @@ public class ImageController {
     @GetMapping("/{imageName}")
     public ResponseEntity<byte[]> getImage(@PathVariable String imageName) {
         try {
-            Resource resource = new ClassPathResource("static/images/" + imageName);
+            Resource resource = new PathResource("src/main/resources/static/images/" + imageName);
             byte[] imageBytes = Files.readAllBytes(resource.getFile().toPath());
-            return ResponseEntity.ok()
-                    .contentType(MediaType.IMAGE_JPEG)
-                    .body(imageBytes);
+            return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(imageBytes);
         } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }

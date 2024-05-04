@@ -15,6 +15,7 @@ public class CustomerDtoMapper {
         customer.setAddress(dto.getAddress());
         customer.setCity(dto.getCity());
         customer.setPostCode(dto.getPostCode());
+        customer.setRole(dto.getRole());
         customer.setPassword(dto.getPassword());
         return customer;
     }
