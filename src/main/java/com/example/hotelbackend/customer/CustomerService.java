@@ -42,7 +42,10 @@ public class CustomerService {
         return Optional.empty();    }
 
     CustomerDto replaceCustomer(Long customerId, CustomerDto customerDto){
+        Customer existingCustomer = customerRepository.findById(customerId).get();
         Customer customer = customerDtoMapper.map(customerDto);
+        customer.setPassword(existingCustomer.getPassword());
+        customer.setRole(existingCustomer.getRole());
         customer.setId(customerId);
         Customer updatedCustomer = customerRepository.save(customer);
         return customerDtoMapper.map(updatedCustomer);
