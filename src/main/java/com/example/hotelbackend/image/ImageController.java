@@ -1,6 +1,5 @@
 package com.example.hotelbackend.image;
 
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.PathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;

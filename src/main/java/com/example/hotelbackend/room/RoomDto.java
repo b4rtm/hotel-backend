@@ -21,11 +21,10 @@ public class RoomDto {
 
 
 
-    public RoomDto(String name, int capacity, int pricePerNight, String imagePath, String description) {
+    public RoomDto(String name, int capacity, int pricePerNight, String description) {
         this.name = name;
         this.capacity = capacity;
         this.pricePerNight = pricePerNight;
-        this.imagePath = imagePath;
         this.description = description;
     }
 }

@@ -36,13 +36,15 @@ public class RoomController {
                                        @RequestParam("pricePerNight") int pricePerNight,
                                        @RequestParam("description") String description,
                                        @RequestParam("image") MultipartFile image){
-        String filePath = null;
+
+        RoomDto savedRoom = roomService.saveRoom(new RoomDto(name, capacity, pricePerNight, description));
+
         try {
-            filePath = imageService.saveFile(image, name);
+            imageService.saveFile(image, name, savedRoom.getId());
         } catch (IOException e) {
             e.printStackTrace();
         }
-        RoomDto savedRoom = roomService.saveRoom(new RoomDto(name, capacity, pricePerNight, filePath, description));
+
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(savedRoom.getId()).toUri();
         return ResponseEntity.created(uri).body(savedRoom);
     }

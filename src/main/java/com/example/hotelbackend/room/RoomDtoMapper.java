@@ -11,7 +11,6 @@ public class RoomDtoMapper {
         roomDto.setName(room.getName());
         roomDto.setCapacity(room.getCapacity());
         roomDto.setPricePerNight(room.getPricePerNight());
-        roomDto.setImagePath(room.getImagePath());
         roomDto.setDescription(room.getDescription());
         return roomDto;
     }
@@ -21,7 +20,6 @@ public class RoomDtoMapper {
         room.setName(dto.getName());
         room.setCapacity(dto.getCapacity());
         room.setPricePerNight(dto.getPricePerNight());
-        room.setImagePath(dto.getImagePath());
         room.setDescription(dto.getDescription());
         return room;
     }
