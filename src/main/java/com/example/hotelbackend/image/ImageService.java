@@ -3,14 +3,13 @@ package com.example.hotelbackend.image;
 import com.example.hotelbackend.room.Room;
 import com.example.hotelbackend.room.RoomNotFoundException;
 import com.example.hotelbackend.room.RoomRepository;
-import com.example.hotelbackend.room.RoomService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.Optional;
+import java.util.List;
 
 @Service
 public class ImageService {
@@ -18,8 +17,8 @@ public class ImageService {
     public static final String URL = "http://localhost:8080/";
     public static String IMAGES_PATH = "src/main/resources/static/images/";
 
-    private ImageRepository imageRepository;
-    private RoomRepository roomRepository;
+    private final ImageRepository imageRepository;
+    private final RoomRepository roomRepository;
 
     public ImageService(ImageRepository imageRepository, RoomRepository roomRepository) {
         this.imageRepository = imageRepository;
@@ -40,5 +39,9 @@ public class ImageService {
         newImage.setPath(path);
 
         return imageRepository.save(newImage);
+    }
+
+    public List<String> getAllByRoomId(Long id){
+        return imageRepository.findAllByRoomId(id).stream().map(Image::getPath).toList();
     }
 }

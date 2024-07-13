@@ -15,7 +15,7 @@ public class RoomDto {
     private String name;
     private int capacity;
     private int pricePerNight;
-    private String imagePath;
+    private List<String> imagePaths;
     private String description;
     private List<BookingDateDto> bookings;
 

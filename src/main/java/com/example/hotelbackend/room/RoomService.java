@@ -1,7 +1,5 @@
 package com.example.hotelbackend.room;
 
-import com.example.hotelbackend.booking.BookingService;
-import com.example.hotelbackend.booking.date.BookingDateDto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,12 +10,11 @@ public class RoomService {
 
     private final RoomRepository roomRepository;
     private final RoomDtoMapper roomDtoMapper;
-    private final BookingService bookingService;
 
-    public RoomService(RoomRepository roomRepository, RoomDtoMapper roomDtoMapper, BookingService bookingService) {
+
+    public RoomService(RoomRepository roomRepository, RoomDtoMapper roomDtoMapper) {
         this.roomRepository = roomRepository;
         this.roomDtoMapper = roomDtoMapper;
-        this.bookingService = bookingService;
     }
 
     List<RoomDto> getRooms(){
@@ -26,12 +23,7 @@ public class RoomService {
 
     public Optional<RoomDto> getRoomById(Long id) {
         return roomRepository.findById(id)
-                .map(roomDtoMapper::map)
-                .flatMap(roomDto -> {
-                    List<BookingDateDto> bookings = bookingService.getBookingsDateForRoom(id);
-                    roomDto.setBookings(bookings);
-                    return Optional.of(roomDto);
-                });
+                .map(roomDtoMapper::map);
     }
 
     RoomDto saveRoom(RoomDto roomDto){
