@@ -9,6 +9,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.io.IOException;
 import java.net.URI;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/rooms")
@@ -62,6 +63,12 @@ public class RoomController {
     @DeleteMapping("/{id}")
     ResponseEntity<?> deleteRoom(@PathVariable Long id){
         roomService.deleteRoom(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/{id}/images")
+    ResponseEntity<?> deleteRoomImage(@PathVariable Long id, @RequestBody Map<String, String> requestBody){
+        imageService.deleteRoomImage(id, requestBody.get("imageUrl"));
         return ResponseEntity.noContent().build();
     }
 }

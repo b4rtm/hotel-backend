@@ -7,4 +7,7 @@ import java.util.List;
 public interface ImageRepository extends JpaRepository<Image, Long> {
 
     List<Image> findAllByRoomId(Long id);
+
+    void deleteByPathAndRoomId(String path, Long id);
+
 }

@@ -3,7 +3,6 @@ package com.example.hotelbackend.booking;
 import com.example.hotelbackend.booking.date.BookingDateDto;
 import com.example.hotelbackend.booking.date.BookingDateDtoMapper;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -35,7 +34,6 @@ public class BookingService {
         return bookingRepository.findById(id).map(bookingDtoMapper::map);
     }
 
-    @Transactional
     public List<BookingDto> getAllBookings(){
        return bookingRepository.findAll().stream().map(bookingDtoMapper::map).toList();
     }
