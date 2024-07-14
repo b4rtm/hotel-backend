@@ -1,5 +1,6 @@
 package com.example.hotelbackend.room;
 
+import com.example.hotelbackend.image.ImageService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,11 +11,13 @@ public class RoomService {
 
     private final RoomRepository roomRepository;
     private final RoomDtoMapper roomDtoMapper;
+    private final ImageService imageService;
 
 
-    public RoomService(RoomRepository roomRepository, RoomDtoMapper roomDtoMapper) {
+    public RoomService(RoomRepository roomRepository, RoomDtoMapper roomDtoMapper, ImageService imageService) {
         this.roomRepository = roomRepository;
         this.roomDtoMapper = roomDtoMapper;
+        this.imageService = imageService;
     }
 
     List<RoomDto> getRooms(){
@@ -40,7 +43,13 @@ public class RoomService {
         return roomDtoMapper.map(updatedRoom);
     }
 
+    void deleteAllRoomImages(Long id){
+        List<String> allPaths = imageService.getAllByRoomId(id);
+        allPaths.forEach(path -> imageService.deleteRoomImage(id,path));
+    }
+
     void deleteRoom(Long id){
+        deleteAllRoomImages(id);
         roomRepository.deleteById(id);
     }
 }

@@ -31,6 +31,7 @@ public class ImageService {
 
     public Image saveFile(MultipartFile image, String name, Long roomId) throws IOException {
         String ext = image.getOriginalFilename().substring(image.getOriginalFilename().lastIndexOf("."));
+        name = name + "-"+ System.currentTimeMillis();
         name = name.toLowerCase().replaceAll("[ /]", "-") + ext;
         File uploadedFile = new File(IMAGES_PATH + name);
         Files.write(uploadedFile.toPath(), image.getBytes());

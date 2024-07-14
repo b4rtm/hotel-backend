@@ -56,7 +56,24 @@ public class RoomController {
     }
 
     @PutMapping("/{id}")
-    ResponseEntity<?> updateRoom(@PathVariable Long id, @RequestBody RoomDto roomDto){
+    ResponseEntity<?> updateRoom(@PathVariable Long id,
+                                 @RequestParam("name") String name,
+                                 @RequestParam("capacity") int capacity,
+                                 @RequestParam("pricePerNight") int pricePerNight,
+                                 @RequestParam("description") String description,
+                                 @RequestPart("newImages") List<MultipartFile> newImages){
+        RoomDto roomDto = new RoomDto();
+        roomDto.setName(name);
+        roomDto.setCapacity(capacity);
+        roomDto.setPricePerNight(pricePerNight);
+        roomDto.setDescription(description);
+        newImages.forEach(image -> {
+            try {
+                imageService.saveFile(image, name, id);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
         return ResponseEntity.ok(roomService.replaceRoom(id, roomDto));
     }
 
