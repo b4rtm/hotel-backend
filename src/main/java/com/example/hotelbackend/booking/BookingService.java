@@ -1,7 +1,5 @@
 package com.example.hotelbackend.booking;
 
-import com.example.hotelbackend.booking.date.BookingDateDto;
-import com.example.hotelbackend.booking.date.BookingDateDtoMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,12 +10,12 @@ public class BookingService {
 
     private final BookingRepository bookingRepository;
     private final BookingDtoMapper bookingDtoMapper;
-    private final BookingDateDtoMapper bookingDateDtoMapper;
+    private final BookingWithRoomDtoDtoMapper bookingWithRoomDtoDtoMapper;
 
-    public BookingService(BookingRepository bookingRepository, BookingDtoMapper bookingDtoMapper, BookingDateDtoMapper bookingDateDtoMapper) {
+    public BookingService(BookingRepository bookingRepository, BookingDtoMapper bookingDtoMapper, BookingWithRoomDtoDtoMapper bookingWithRoomDtoDtoMapper) {
         this.bookingRepository = bookingRepository;
         this.bookingDtoMapper = bookingDtoMapper;
-        this.bookingDateDtoMapper = bookingDateDtoMapper;
+        this.bookingWithRoomDtoDtoMapper = bookingWithRoomDtoDtoMapper;
     }
 
     Long saveBooking(BookingWithIdsDto bookingWithIdsDto){
@@ -26,9 +24,7 @@ public class BookingService {
         return savedBooking.getId();
     }
 
-    public List<BookingDateDto> getBookingsDateForRoom(Long id){
-        return bookingRepository.findByRoomId(id).stream().map(bookingDateDtoMapper::map).toList();
-    }
+
 
     public Optional<BookingDto> getBookingById(Long id){
         return bookingRepository.findById(id).map(bookingDtoMapper::map);
@@ -40,5 +36,9 @@ public class BookingService {
 
     void deleteBooking(Long id) {
         bookingRepository.deleteById(id);
+    }
+
+    public List<BookingWithRoomDtoDto> getAllUserBookings(Long userId) {
+        return bookingRepository.findAllByCustomerId(userId).stream().map(bookingWithRoomDtoDtoMapper::map).toList();
     }
 }

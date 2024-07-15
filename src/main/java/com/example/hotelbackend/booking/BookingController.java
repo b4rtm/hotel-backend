@@ -33,6 +33,15 @@ public class BookingController {
         return ResponseEntity.ok(bookingDtoList);
     }
 
+    @GetMapping("/user")
+    ResponseEntity<List<BookingWithRoomDtoDto>> getUserBookings(@RequestParam Long userId){
+        List<BookingWithRoomDtoDto> bookingDtoList = bookingService.getAllUserBookings(userId);
+        if(bookingDtoList.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(bookingDtoList);
+    }
+
     @GetMapping("/{id}")
     ResponseEntity<BookingDto> getBookingById(@PathVariable Long id){
         return bookingService.getBookingById(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());

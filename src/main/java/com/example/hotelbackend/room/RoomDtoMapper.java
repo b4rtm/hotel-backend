@@ -1,28 +1,27 @@
 package com.example.hotelbackend.room;
 
-import com.example.hotelbackend.booking.BookingService;
 import com.example.hotelbackend.image.ImageService;
 import org.springframework.stereotype.Service;
 
 @Service
 public class RoomDtoMapper {
 
-    private final BookingService bookingService;
+    private final RoomService roomService;
     private final ImageService imageService;
 
-    public RoomDtoMapper(BookingService bookingService, ImageService imageService) {
-        this.bookingService = bookingService;
+    public RoomDtoMapper(RoomService roomService, ImageService imageService) {
+        this.roomService = roomService;
         this.imageService = imageService;
     }
 
-    RoomDto map(Room room){
+    public RoomDto map(Room room){
         RoomDto roomDto = new RoomDto();
         roomDto.setId(room.getId());
         roomDto.setName(room.getName());
         roomDto.setCapacity(room.getCapacity());
         roomDto.setPricePerNight(room.getPricePerNight());
         roomDto.setDescription(room.getDescription());
-        roomDto.setBookings(bookingService.getBookingsDateForRoom(room.getId()));
+        roomDto.setBookings(roomService.getBookingsDateForRoom(room.getId()));
         roomDto.setImagePaths(imageService.getAllByRoomId(room.getId()));
         return roomDto;
     }
