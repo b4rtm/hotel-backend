@@ -20,6 +20,7 @@ public class BookingController {
     @PostMapping
     ResponseEntity<String> bookRoom(@RequestBody BookingWithIdsDto booking){
         Long bookingId = bookingService.saveBooking(booking);
+        bookingService.sendEmailConfirmation(bookingId);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(bookingId).toUri();
         return ResponseEntity.created(uri).body(bookingId.toString());
     }
