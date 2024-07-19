@@ -36,6 +36,7 @@ public class Customer implements UserDetails {
     private String phoneNumber;
     @Enumerated(EnumType.STRING)
     private Role role;
+    private boolean enabled;
 
     @Override
     public String getUsername() {
@@ -59,7 +60,7 @@ public class Customer implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return enabled;
     }
 
     @Override

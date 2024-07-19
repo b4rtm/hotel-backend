@@ -1,5 +1,6 @@
 package com.example.hotelbackend.auth;
 
+import com.example.hotelbackend.auth.verification_token.AccountNotActivatedException;
 import com.example.hotelbackend.customer.Customer;
 import com.example.hotelbackend.customer.CustomerRepository;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,7 +18,9 @@ public class AuthService {
 
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Customer customer = customerRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("customer not found: " + email));
-
+        if (!customer.isEnabled()) {
+            throw new AccountNotActivatedException("Konto nieaktywne");
+        }
         return new org.springframework.security.core.userdetails.User(
                 customer.getEmail(),
                 customer.getPassword(),
