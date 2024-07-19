@@ -17,9 +17,9 @@ public class AuthService {
     }
 
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Customer customer = customerRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("customer not found: " + email));
+        Customer customer = customerRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("Nie znaleziono " + email));
         if (!customer.isEnabled()) {
-            throw new AccountNotActivatedException("Konto nieaktywne");
+            throw new AccountNotActivatedException("Konto nie zostało aktywowane");
         }
         return new org.springframework.security.core.userdetails.User(
                 customer.getEmail(),
