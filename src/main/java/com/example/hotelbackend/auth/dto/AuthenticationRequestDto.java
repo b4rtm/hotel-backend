@@ -1,4 +1,4 @@
-package com.example.hotelbackend.auth;
+package com.example.hotelbackend.auth.dto;
 
 import lombok.*;
 
@@ -6,7 +6,7 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthenticationRequest {
+public class AuthenticationRequestDto {
     private String username;
     private String password;
 }

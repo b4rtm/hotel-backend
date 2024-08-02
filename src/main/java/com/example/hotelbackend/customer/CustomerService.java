@@ -44,6 +44,16 @@ public class CustomerService {
         return customerDtoMapper.map(savedCustomer);
     }
 
+    public Customer createGoogleCustomerIfNotExist(Customer customer){
+        Customer customer1 = customerRepository.findByEmail(customer.getEmail()).orElse(null);
+        if(customer1 == null){
+            customer.setRole(Customer.Role.ROLE_USER);
+            customer.setEnabled(true);
+            return customerRepository.save(customer);
+        }
+        return customer1;
+    }
+
     public void sendVerificationEmail(String email, String token) {
         String url = "http://localhost:8080/auth/confirm?token=" + token;
         String message = "Aby potwierdzić rejestrację, kliknij w poniższy link:\n" + url;

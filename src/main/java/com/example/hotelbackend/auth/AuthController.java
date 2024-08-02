@@ -1,8 +1,11 @@
 package com.example.hotelbackend.auth;
 
+import com.example.hotelbackend.auth.dto.AuthenticationRequestDto;
+import com.example.hotelbackend.auth.dto.IdTokenRequestDto;
 import com.example.hotelbackend.config.JwtUtil;
 import com.example.hotelbackend.customer.CustomerDto;
 import com.example.hotelbackend.customer.CustomerService;
+import jakarta.servlet.http.HttpServletResponse;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
@@ -45,7 +48,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> loginUser(@RequestBody AuthenticationRequest request) {
+    public ResponseEntity<String> loginUser(@RequestBody AuthenticationRequestDto request) {
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
@@ -59,6 +62,19 @@ public class AuthController {
         JSONObject tokenResponse;
         try {
             tokenResponse = new JSONObject("{\"token\": \"" + token + "\"}");
+        } catch (JSONException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("json problem");
+        }
+        return ResponseEntity.ok(tokenResponse.toString());
+    }
+
+    @PostMapping("/google-login")
+    public ResponseEntity<String> LoginWithGoogleOauth2(@RequestBody IdTokenRequestDto requestBody) {
+        String authToken = authService.loginOAuthGoogle(requestBody);
+
+        JSONObject tokenResponse;
+        try {
+            tokenResponse = new JSONObject("{\"token\": \"" + authToken + "\"}");
         } catch (JSONException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("json problem");
         }
