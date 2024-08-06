@@ -1,9 +1,9 @@
 package com.example.hotelbackend.booking;
 
+import com.example.hotelbackend.review.Review;
 import com.example.hotelbackend.smtp.ClientSMTP;
 import org.springframework.stereotype.Service;
 
-import java.awt.print.Book;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,38 +48,34 @@ public class BookingService {
 
     public void sendEmailConfirmation(Long bookingId) {
         Optional<Booking> booking = bookingRepository.findById(bookingId);
-        if(booking.isPresent()){
-            clientSMTP.sendEmail("bartek.matusiak12@gmail.com", "Potwierdzenie rezerwacji o numerze " + booking.get().getId(), generateEmailConfirmationText(booking.get()));
-        }
+        booking.ifPresent(value -> clientSMTP.sendEmail("bartek.matusiak12@gmail.com", "Potwierdzenie rezerwacji o numerze " + value.getId(), generateEmailConfirmationText(value)));
+    }
+    public void addReviewToBooking(Long bookingId, Review review){
+        Optional<Booking> booking = bookingRepository.findById(bookingId);
+        booking.ifPresent(value -> {
+            value.setReview(review);
+            bookingRepository.save(value);
+        });
     }
 
     private String generateEmailConfirmationText(Booking booking) {
-        StringBuilder emailText = new StringBuilder();
-
-        emailText.append("Cześć ")
-                .append(booking.getCustomer().getName())
-                .append("!\n\n")
-                .append("Dziękujemy za dokonanie rezerwacji! Oto szczegóły Twojej rezerwacji:\n\n")
-                .append("Numer rezerwacji: ")
-                .append(booking.getId())
-                .append("\n")
-                .append("Data zameldowania: ")
-                .append(booking.getCheckInDate())
-                .append("\n")
-                .append("Data wymeldowania: ")
-                .append(booking.getCheckOutDate())
-                .append("\n")
-                .append("Pokój: ")
-                .append(booking.getRoom().getName())
-                .append("\n")
-                .append("Cena całkowita: ")
-                .append(booking.getBookingPrice())
-                .append(" PLN\n\n")
-                .append("Z niecierpliwością oczekujemy na Twoje przybycie.\n\n")
-                .append("Z poważaniem,\n")
-                .append("Zespół Royal Residence");
-
-        return emailText.toString();
+        return "Cześć " +
+                booking.getCustomer().getName() + "!\n\n" +
+                "Dziękujemy za dokonanie rezerwacji! Oto szczegóły Twojej rezerwacji:\n\n" +
+                "Numer rezerwacji: " +
+                booking.getId() + "\n" +
+                "Data zameldowania: " +
+                booking.getCheckInDate() + "\n" +
+                "Data wymeldowania: " +
+                booking.getCheckOutDate() + "\n" +
+                "Pokój: " +
+                booking.getRoom().getName() + "\n" +
+                "Cena całkowita: " +
+                booking.getBookingPrice() +
+                " PLN\n\n" +
+                "Z niecierpliwością oczekujemy na Twoje przybycie.\n\n" +
+                "Z poważaniem,\n" +
+                "Zespół Royal Residence";
     }
 
 

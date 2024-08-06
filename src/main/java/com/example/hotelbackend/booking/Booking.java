@@ -1,6 +1,7 @@
 package com.example.hotelbackend.booking;
 
 import com.example.hotelbackend.customer.Customer;
+import com.example.hotelbackend.review.Review;
 import com.example.hotelbackend.room.Room;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -27,4 +28,6 @@ public class Booking {
     private Room room;
     private int bookingPrice;
 
+    @OneToOne
+    private Review review;
 }

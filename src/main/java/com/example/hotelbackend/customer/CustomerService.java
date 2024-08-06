@@ -87,6 +87,10 @@ public class CustomerService {
         }
         return Optional.empty();    }
 
+    public Optional<Customer> getCustomerById(Long id){
+        return customerRepository.findById(id);
+    }
+
     CustomerDto replaceCustomer(Long customerId, CustomerDto customerDto){
         Customer existingCustomer = customerRepository.findById(customerId).get();
         Customer customer = customerDtoMapper.map(customerDto);
