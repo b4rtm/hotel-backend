@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Data
+@Table(name = "verification_tokens")
 public class VerificationToken {
 
     @Id
