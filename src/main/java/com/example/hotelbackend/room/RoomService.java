@@ -4,6 +4,9 @@ import com.example.hotelbackend.booking.BookingRepository;
 import com.example.hotelbackend.booking.date.BookingDateDto;
 import com.example.hotelbackend.booking.date.BookingDateDtoMapper;
 import com.example.hotelbackend.image.ImageService;
+import com.example.hotelbackend.review.ReviewDto;
+import com.example.hotelbackend.review.ReviewDtoMapper;
+import com.example.hotelbackend.review.ReviewService;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
@@ -18,14 +21,17 @@ public class RoomService {
     private final ImageService imageService;
     private final BookingRepository bookingRepository;
     private final BookingDateDtoMapper bookingDateDtoMapper;
+    private final ReviewService reviewService;
+    private final ReviewDtoMapper reviewDtoMapper;
 
-
-    public RoomService(RoomRepository roomRepository, @Lazy RoomDtoMapper roomDtoMapper, ImageService imageService, BookingRepository bookingRepository, BookingDateDtoMapper bookingDateDtoMapper) {
+    public RoomService(RoomRepository roomRepository, @Lazy RoomDtoMapper roomDtoMapper, ImageService imageService, BookingRepository bookingRepository, BookingDateDtoMapper bookingDateDtoMapper, ReviewService reviewService, ReviewDtoMapper reviewDtoMapper) {
         this.roomRepository = roomRepository;
         this.roomDtoMapper = roomDtoMapper;
         this.imageService = imageService;
         this.bookingRepository = bookingRepository;
         this.bookingDateDtoMapper = bookingDateDtoMapper;
+        this.reviewService = reviewService;
+        this.reviewDtoMapper = reviewDtoMapper;
     }
 
     List<RoomDto> getRooms(){
@@ -33,8 +39,12 @@ public class RoomService {
     }
 
     public Optional<RoomDto> getRoomById(Long id) {
-        return roomRepository.findById(id)
+        List<ReviewDto> reviewsByRoomId = reviewService.getReviewsByRoomId(id).stream().map(reviewDtoMapper::map).toList();
+
+        Optional<RoomDto> roomDto = roomRepository.findById(id)
                 .map(roomDtoMapper::map);
+        roomDto.ifPresent(roomDto1 -> roomDto1.setReviews(reviewsByRoomId));
+        return roomDto;
     }
 
     RoomDto saveRoom(RoomDto roomDto){

@@ -3,11 +3,13 @@ package com.example.hotelbackend.auth.verification_token;
 import com.example.hotelbackend.customer.Customer;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Data
+@NoArgsConstructor
 @Table(name = "verification_tokens")
 public class VerificationToken {
 
@@ -26,7 +28,4 @@ public class VerificationToken {
         this.customer = customer;
     }
 
-
-    public VerificationToken() {
-    }
 }

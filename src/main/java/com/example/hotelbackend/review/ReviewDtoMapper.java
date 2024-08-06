@@ -12,4 +12,13 @@ public class ReviewDtoMapper {
 
         return review;
     }
+
+    public ReviewDto map(Review review){
+        ReviewDto reviewDto = new ReviewDto();
+        reviewDto.setId(review.getId());
+        reviewDto.setName(review.getName());
+        reviewDto.setComment(review.getComment());
+        reviewDto.setRating(review.getRating());
+        return reviewDto;
+    }
 }

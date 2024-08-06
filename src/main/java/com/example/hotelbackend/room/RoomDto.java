@@ -1,6 +1,7 @@
 package com.example.hotelbackend.room;
 
 import com.example.hotelbackend.booking.date.BookingDateDto;
+import com.example.hotelbackend.review.ReviewDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,7 +19,7 @@ public class RoomDto {
     private List<String> imagePaths;
     private String description;
     private List<BookingDateDto> bookings;
-
+    private List<ReviewDto> reviews;
 
 
     public RoomDto(String name, int capacity, int pricePerNight, String description) {
