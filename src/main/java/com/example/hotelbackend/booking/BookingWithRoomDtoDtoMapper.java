@@ -19,6 +19,7 @@ public class BookingWithRoomDtoDtoMapper {
         bookingDto.setRoom(roomDtoMapper.map(booking.getRoom()));
         bookingDto.setCheckOutDate(booking.getCheckOutDate());
         bookingDto.setCheckInDate(booking.getCheckInDate());
+        bookingDto.setHasReview(booking.getReview() != null);
         return bookingDto;
     }
 }

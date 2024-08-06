@@ -13,4 +13,5 @@ public class BookingWithRoomDtoDto {
     private LocalDate checkOutDate;
     private Customer customer;
     private RoomDto room;
+    private boolean hasReview;
 }
