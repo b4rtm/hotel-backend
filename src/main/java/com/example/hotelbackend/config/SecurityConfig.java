@@ -33,6 +33,7 @@ public class SecurityConfig {
 
         http.authorizeHttpRequests(requests -> requests
                 .requestMatchers(HttpMethod.DELETE, "/bookings/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.PATCH, "/bookings/**").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.GET, "/users").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.PUT, "/users/**").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.DELETE, "/users/**").hasRole("ADMIN")
