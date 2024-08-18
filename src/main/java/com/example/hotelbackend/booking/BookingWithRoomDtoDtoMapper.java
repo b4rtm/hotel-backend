@@ -20,7 +20,7 @@ public class BookingWithRoomDtoDtoMapper {
         bookingDto.setCheckOutDate(booking.getCheckOutDate());
         bookingDto.setCheckInDate(booking.getCheckInDate());
         bookingDto.setHasReview(booking.getReview() != null);
-        bookingDto.setApproved(bookingDto.isApproved());
+        bookingDto.setApproved(booking.isApproved());
         return bookingDto;
     }
 }
