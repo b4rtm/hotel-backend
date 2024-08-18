@@ -54,4 +54,14 @@ public class BookingController {
         bookingService.deleteBooking(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PatchMapping("/{id}/approve")
+    public ResponseEntity<Booking> approveBooking(@PathVariable Long id) {
+        try {
+            Booking updatedBooking = bookingService.approveBooking(id);
+            return ResponseEntity.ok(updatedBooking);
+        } catch (BookingNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }

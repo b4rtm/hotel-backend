@@ -40,6 +40,7 @@ public class BookingDtoMapper {
         bookingDto.setRoom(booking.getRoom());
         bookingDto.setCheckOutDate(booking.getCheckOutDate());
         bookingDto.setCheckInDate(booking.getCheckInDate());
+        bookingDto.setApproved(booking.isApproved());
         return bookingDto;
     }
 }

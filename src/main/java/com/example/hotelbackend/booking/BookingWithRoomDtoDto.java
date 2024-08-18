@@ -14,4 +14,5 @@ public class BookingWithRoomDtoDto {
     private Customer customer;
     private RoomDto room;
     private boolean hasReview;
+    private boolean isApproved;
 }

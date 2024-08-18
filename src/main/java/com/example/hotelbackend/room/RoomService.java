@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class RoomService {
@@ -34,8 +35,15 @@ public class RoomService {
         this.reviewDtoMapper = reviewDtoMapper;
     }
 
-    List<RoomDto> getRooms(){
-        return roomRepository.findAll().stream().map(roomDtoMapper::map).toList();
+    List<RoomDto> getRooms() {
+        return roomRepository.findAll().stream().map(room -> {
+            RoomDto roomDto = roomDtoMapper.map(room);
+            List<ReviewDto> reviews = reviewService.getReviewsByRoomId(room.getId()).stream()
+                    .map(reviewDtoMapper::map)
+                    .collect(Collectors.toList());
+            roomDto.setReviews(reviews);
+            return roomDto;
+        }).collect(Collectors.toList());
     }
 
     public Optional<RoomDto> getRoomById(Long id) {

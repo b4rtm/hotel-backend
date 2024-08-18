@@ -79,4 +79,10 @@ public class BookingService {
     }
 
 
+    public Booking approveBooking(Long id) throws BookingNotFoundException {
+        Booking booking = bookingRepository.findById(id)
+                .orElseThrow(() -> new BookingNotFoundException("Booking not found with id: " + id));
+        booking.setApproved(true);
+        return bookingRepository.save(booking);
+    }
 }

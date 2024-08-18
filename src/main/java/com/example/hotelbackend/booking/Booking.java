@@ -20,13 +20,20 @@ public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private LocalDate checkInDate;
+
     private LocalDate checkOutDate;
+
     @ManyToOne
     private Customer customer;
+
     @ManyToOne
     private Room room;
+
     private int bookingPrice;
+
+    private boolean isApproved = false;
 
     @OneToOne
     private Review review;
