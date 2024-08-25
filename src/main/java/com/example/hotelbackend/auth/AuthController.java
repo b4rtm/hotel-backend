@@ -5,7 +5,6 @@ import com.example.hotelbackend.auth.dto.IdTokenRequestDto;
 import com.example.hotelbackend.config.JwtUtil;
 import com.example.hotelbackend.customer.CustomerDto;
 import com.example.hotelbackend.customer.CustomerService;
-import jakarta.servlet.http.HttpServletResponse;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
@@ -51,12 +50,12 @@ public class AuthController {
     public ResponseEntity<String> loginUser(@RequestBody AuthenticationRequestDto request) {
         try {
             authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
+                    new UsernamePasswordAuthenticationToken(request.username(), request.password())
             );
         } catch (BadCredentialsException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("user unauthorized");
         }
-        UserDetails userDetails = authService.loadUserByUsername(request.getUsername());
+        UserDetails userDetails = authService.loadUserByUsername(request.username());
         String token = jwtUtil.generateToken(userDetails);
 
         JSONObject tokenResponse;
