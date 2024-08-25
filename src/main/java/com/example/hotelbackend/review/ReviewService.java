@@ -3,6 +3,7 @@ package com.example.hotelbackend.review;
 import com.example.hotelbackend.booking.BookingService;
 import com.example.hotelbackend.customer.Customer;
 import com.example.hotelbackend.customer.CustomerService;
+import com.example.hotelbackend.review.dto.ReviewRequestDto;
 import com.example.hotelbackend.room.*;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -28,14 +29,14 @@ public class ReviewService {
     }
 
      Review addReview(ReviewRequestDto reviewRequest) {
-        Optional<Customer> customer = customerService.getCustomerById(reviewRequest.getCustomerId());
+        Optional<Customer> customer = customerService.getCustomerById(reviewRequest.customerId());
         String name = customer.map(Customer::getName).orElse("Bartek");
         Review review = reviewDtoMapper.map(reviewRequest);
         review.setName(name);
-        Room room = roomRepository.findById(reviewRequest.getRoomId()).orElseThrow(() -> new RoomNotFoundException("Room not found with id:" + reviewRequest.getRoomId()));
+        Room room = roomRepository.findById(reviewRequest.roomId()).orElseThrow(() -> new RoomNotFoundException("Room not found with id:" + reviewRequest.roomId()));
         review.setRoom(room);
         Review saved = reviewRepository.save(review);
-        bookingService.addReviewToBooking(reviewRequest.getBookingId(), saved);
+        bookingService.addReviewToBooking(reviewRequest.bookingId(), saved);
         return saved;
     }
 

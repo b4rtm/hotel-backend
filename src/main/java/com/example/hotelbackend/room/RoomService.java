@@ -4,7 +4,7 @@ import com.example.hotelbackend.booking.BookingRepository;
 import com.example.hotelbackend.booking.dto.BookingDateDto;
 import com.example.hotelbackend.booking.mapper.BookingDateDtoMapper;
 import com.example.hotelbackend.image.ImageService;
-import com.example.hotelbackend.review.ReviewDto;
+import com.example.hotelbackend.review.dto.ReviewDto;
 import com.example.hotelbackend.review.ReviewDtoMapper;
 import com.example.hotelbackend.review.ReviewService;
 import org.springframework.context.annotation.Lazy;

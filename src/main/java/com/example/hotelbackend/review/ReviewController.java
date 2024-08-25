@@ -1,5 +1,6 @@
 package com.example.hotelbackend.review;
 
+import com.example.hotelbackend.review.dto.ReviewRequestDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
