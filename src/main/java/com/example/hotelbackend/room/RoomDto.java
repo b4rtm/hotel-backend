@@ -1,6 +1,6 @@
 package com.example.hotelbackend.room;
 
-import com.example.hotelbackend.booking.date.BookingDateDto;
+import com.example.hotelbackend.booking.dto.BookingDateDto;
 import com.example.hotelbackend.review.ReviewDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
