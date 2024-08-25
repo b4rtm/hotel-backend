@@ -35,7 +35,7 @@ public class AuthController {
     @PostMapping("/register")
     ResponseEntity<CustomerDto> createCustomer(@RequestBody CustomerDto customer){
         CustomerDto savedCustomer = customerService.saveCustomer(customer);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(savedCustomer.getId()).toUri();
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(savedCustomer.id()).toUri();
         return ResponseEntity.created(uri).body(savedCustomer);
     }
 

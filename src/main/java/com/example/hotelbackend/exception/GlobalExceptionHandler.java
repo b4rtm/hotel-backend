@@ -1,8 +1,10 @@
 package com.example.hotelbackend.exception;
 
 import com.example.hotelbackend.auth.verification_token.AccountNotActivatedException;
+import com.example.hotelbackend.auth.verification_token.TokenNotFoundException;
 import com.example.hotelbackend.booking.BookingNotFoundException;
 import com.example.hotelbackend.customer.CustomerNotFoundException;
+import com.example.hotelbackend.customer.ExpiredTokenException;
 import com.example.hotelbackend.room.RoomNotFoundException;
 import org.json.JSONException;
 import org.springframework.http.HttpStatus;
@@ -49,5 +51,15 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(RoomNotFoundException.class)
     public ResponseEntity<String> handleRoomNotFoundException(RoomNotFoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Room not found: " + ex.getMessage());
+    }
+
+    @ExceptionHandler(TokenNotFoundException.class)
+    public ResponseEntity<String> handleTokenNotFoundException(TokenNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(ExpiredTokenException.class)
+    public ResponseEntity<String> handleExpiredTokenException(ExpiredTokenException ex) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ex.getMessage());
     }
 }

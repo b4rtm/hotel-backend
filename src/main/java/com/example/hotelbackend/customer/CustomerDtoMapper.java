@@ -5,34 +5,34 @@ import org.springframework.stereotype.Service;
 @Service
 public class CustomerDtoMapper {
 
-    Customer map(CustomerDto dto){
+    Customer map(CustomerDto dto) {
         Customer customer = new Customer();
-        customer.setName(dto.getName());
-        customer.setPesel(dto.getPesel());
-        customer.setSurname(dto.getSurname());
-        customer.setEmail(dto.getEmail());
-        customer.setPhoneNumber(dto.getPhoneNumber());
-        customer.setAddress(dto.getAddress());
-        customer.setCity(dto.getCity());
-        customer.setPostCode(dto.getPostCode());
-        customer.setRole(dto.getRole());
-        customer.setPassword(dto.getPassword());
+        customer.setName(dto.name());
+        customer.setPesel(dto.pesel());
+        customer.setSurname(dto.surname());
+        customer.setEmail(dto.email());
+        customer.setPhoneNumber(dto.phoneNumber());
+        customer.setAddress(dto.address());
+        customer.setCity(dto.city());
+        customer.setPostCode(dto.postCode());
+        customer.setRole(dto.role());
+        customer.setPassword(dto.password());
         return customer;
     }
 
-    CustomerDto map(Customer customer){
-        CustomerDto dto = new CustomerDto();
-        dto.setId(customer.getId());
-        dto.setName(customer.getName());
-        dto.setPesel(customer.getPesel());
-        dto.setSurname(customer.getSurname());
-        dto.setEmail(customer.getEmail());
-        dto.setPhoneNumber(customer.getPhoneNumber());
-        dto.setAddress(customer.getAddress());
-        dto.setCity(customer.getCity());
-        dto.setPostCode(customer.getPostCode());
-        dto.setPassword(customer.getPassword());
-        dto.setRole(customer.getRole());
-        return dto;
+    CustomerDto map(Customer customer) {
+        return new CustomerDto(
+                customer.getId(),
+                customer.getName(),
+                customer.getSurname(),
+                customer.getEmail(),
+                customer.getPesel(),
+                customer.getAddress(),
+                customer.getCity(),
+                customer.getPostCode(),
+                customer.getPassword(),
+                customer.getPhoneNumber(),
+                customer.getRole()
+        );
     }
 }

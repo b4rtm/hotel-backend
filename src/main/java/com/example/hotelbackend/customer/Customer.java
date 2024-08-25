@@ -25,17 +25,27 @@ public class Customer implements UserDetails {
     private Long id;
 
     private String name;
+
     private String surname;
+
     @Email
     private String email;
+
     private String pesel;
+
     private String address;
+
     private String city;
+
     private String postCode;
+
     private String password;
+
     private String phoneNumber;
+
     @Enumerated(EnumType.STRING)
     private Role role;
+
     private boolean enabled;
 
     @Override

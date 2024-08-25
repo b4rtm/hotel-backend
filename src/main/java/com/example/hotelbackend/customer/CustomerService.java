@@ -1,5 +1,6 @@
 package com.example.hotelbackend.customer;
 
+import com.example.hotelbackend.auth.verification_token.TokenNotFoundException;
 import com.example.hotelbackend.auth.verification_token.VerificationToken;
 import com.example.hotelbackend.auth.verification_token.VerificationTokenRepository;
 import com.example.hotelbackend.smtp.ClientSMTP;
@@ -40,7 +41,6 @@ public class CustomerService {
         tokenRepository.save(verificationToken);
         sendVerificationEmail("bartek.matusiak12@gmail.com", token);
 
-
         return customerDtoMapper.map(savedCustomer);
     }
 
@@ -62,10 +62,10 @@ public class CustomerService {
 
     public String confirmToken(String token) {
         VerificationToken verificationToken = tokenRepository.findByToken(token)
-                .orElseThrow(() -> new IllegalStateException("Token nie znaleziony"));
+                .orElseThrow(() -> new TokenNotFoundException("Nie udało się zatwierdzić konta."));
 
         if (verificationToken.getExpiresAt().isBefore(LocalDateTime.now())) {
-            throw new IllegalStateException("Token wygasł");
+            throw new ExpiredTokenException("Token wygasł");
         }
 
         Customer customer = verificationToken.getCustomer();

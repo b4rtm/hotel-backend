@@ -19,7 +19,7 @@ import java.util.function.Function;
 public class JwtUtil {
     private final String SECRET_KEY = "dlsajdalkjlkj4ljwp943ipesidpoi3294ie0p4is043432sldkjfrwe432lksdd";
 
-    private final long EXPIRATION_TIME = 900_000 * 32; // 15 minutes
+    private final long EXPIRATION_TIME = 900_000 * 32;
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);

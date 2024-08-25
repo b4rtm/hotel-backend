@@ -20,15 +20,14 @@ public class CustomerController {
 
 
     @GetMapping
-    ResponseEntity<List<CustomerDto>> getUsers(){
+    ResponseEntity<List<CustomerDto>> getUsers() {
         List<CustomerDto> users = customerService.getUsers();
-        if(users.isEmpty())
-            return ResponseEntity.notFound().build();
+        if (users.isEmpty()) return ResponseEntity.notFound().build();
         return ResponseEntity.ok(users);
     }
 
     @GetMapping("/getUser")
-    ResponseEntity<CustomerDto> getUser(){
+    ResponseEntity<CustomerDto> getUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
 
@@ -36,12 +35,12 @@ public class CustomerController {
     }
 
     @PutMapping("/{id}")
-    ResponseEntity<?> updateCustomer(@PathVariable Long id, @RequestBody CustomerDto customerDto){
+    ResponseEntity<?> updateCustomer(@PathVariable Long id, @RequestBody CustomerDto customerDto) {
         return ResponseEntity.ok(customerService.replaceCustomer(id, customerDto));
     }
 
     @DeleteMapping("/{id}")
-    ResponseEntity<?> deleteCustomer(@PathVariable Long id){
+    ResponseEntity<?> deleteCustomer(@PathVariable Long id) {
         customerService.deleteCustomer(id);
         return ResponseEntity.noContent().build();
     }
