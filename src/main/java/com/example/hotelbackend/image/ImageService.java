@@ -1,6 +1,7 @@
 package com.example.hotelbackend.image;
 
 import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.AmazonS3Exception;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.example.hotelbackend.room.Room;
@@ -31,23 +32,27 @@ public class ImageService {
         this.s3Client = s3Client;
     }
 
-    public Image saveFile(MultipartFile image, String name, Long roomId) throws IOException {
-        String ext = image.getOriginalFilename().substring(image.getOriginalFilename().lastIndexOf("."));
-        name = name + "-" + System.currentTimeMillis();
-        name = name.toLowerCase().replaceAll("[ /]", "-") + ext;
+    public Image saveFile(MultipartFile image, String name, Long roomId) {
+        try {
+            String ext = image.getOriginalFilename().substring(image.getOriginalFilename().lastIndexOf("."));
+            name = name + "-" + System.currentTimeMillis();
+            name = name.toLowerCase().replaceAll("[ /]", "-") + ext;
 
-        s3Client.putObject(new PutObjectRequest(bucketName, name, image.getInputStream(), null)
-                .withCannedAcl(CannedAccessControlList.PublicRead));
+            s3Client.putObject(new PutObjectRequest(bucketName, name, image.getInputStream(), null)
+                    .withCannedAcl(CannedAccessControlList.PublicRead));
 
-        String path = s3Client.getUrl(bucketName, name).toString();
+            String path = s3Client.getUrl(bucketName, name).toString();
 
-        Room room = roomRepository.findById(roomId)
-                .orElseThrow(() -> new RoomNotFoundException("Room not found with id: " + roomId));
+            Room room = roomRepository.findById(roomId)
+                    .orElseThrow(() -> new RoomNotFoundException("Room not found with id: " + roomId));
 
-        Image newImage = new Image();
-        newImage.setRoom(room);
-        newImage.setPath(path);
-        return imageRepository.save(newImage);
+            Image newImage = new Image();
+            newImage.setRoom(room);
+            newImage.setPath(path);
+            return imageRepository.save(newImage);
+        } catch (AmazonS3Exception | IOException e) {
+            throw new ImageUploadException("Failed to upload image");
+        }
     }
 
     public List<String> getAllByRoomId(Long id) {

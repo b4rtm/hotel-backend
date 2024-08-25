@@ -9,6 +9,7 @@ import com.example.hotelbackend.review.ReviewDtoMapper;
 import com.example.hotelbackend.review.ReviewService;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -55,16 +56,23 @@ public class RoomService {
         return roomDto;
     }
 
-    RoomDto saveRoom(RoomDto roomDto){
+    RoomDto saveRoom(RoomDto roomDto, List<MultipartFile> newImages){
         Room room = roomDtoMapper.map(roomDto);
         Room savedRoom = roomRepository.save(room);
+        newImages.forEach(image -> imageService.saveFile(image, room.getName(), savedRoom.getId()));
         return roomDtoMapper.map(savedRoom);
     }
 
-    RoomDto replaceRoom(Long roomId, RoomDto roomDto){
+    RoomDto replaceRoom(Long roomId, String name, int capacity, int pricePerNight, String description, List<MultipartFile> newImages){
+        RoomDto roomDto = new RoomDto();
+        roomDto.setName(name);
+        roomDto.setCapacity(capacity);
+        roomDto.setPricePerNight(pricePerNight);
+        roomDto.setDescription(description);
+        newImages.forEach(image -> imageService.saveFile(image, name, roomId));
+
         Room room = roomDtoMapper.map(roomDto);
         room.setId(roomId);
-//        room.setImagePath(roomRepository.findById(roomId).map(Room::getImagePath).orElse("http://localhost:8080/images/room1.jpg"));
         Room updatedRoom = roomRepository.save(room);
         return roomDtoMapper.map(updatedRoom);
     }

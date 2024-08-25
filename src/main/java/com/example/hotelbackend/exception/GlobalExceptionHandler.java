@@ -5,6 +5,7 @@ import com.example.hotelbackend.auth.verification_token.TokenNotFoundException;
 import com.example.hotelbackend.booking.BookingNotFoundException;
 import com.example.hotelbackend.customer.CustomerNotFoundException;
 import com.example.hotelbackend.customer.ExpiredTokenException;
+import com.example.hotelbackend.image.ImageUploadException;
 import com.example.hotelbackend.room.RoomNotFoundException;
 import org.json.JSONException;
 import org.springframework.http.HttpStatus;
@@ -25,12 +26,12 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<String> handleBadCredentials(BadCredentialsException ex) {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User unauthorized");
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User unauthorized: " + ex.getMessage());
     }
 
     @ExceptionHandler(JSONException.class)
     public ResponseEntity<String> handleJSONException(JSONException ex) {
-        return ResponseEntity.status(HttpStatus.CONFLICT).body("JSON problem");
+        return ResponseEntity.status(HttpStatus.CONFLICT).body("JSON problem: " + ex.getMessage());
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
@@ -61,5 +62,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ExpiredTokenException.class)
     public ResponseEntity<String> handleExpiredTokenException(ExpiredTokenException ex) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(ImageUploadException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ResponseEntity<String> handleImageUploadException(ImageUploadException ex) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ex.getMessage());
     }
 }

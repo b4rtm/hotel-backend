@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.io.IOException;
 import java.net.URI;
 import java.util.List;
 import java.util.Map;
@@ -37,16 +36,7 @@ public class RoomController {
                                        @RequestParam("pricePerNight") int pricePerNight,
                                        @RequestParam("description") String description,
                                        @RequestPart("newImages") List<MultipartFile> newImages){
-
-        RoomDto savedRoom = roomService.saveRoom(new RoomDto(name, capacity, pricePerNight, description));
-
-        newImages.forEach(image -> {
-            try {
-                imageService.saveFile(image, name, savedRoom.getId());
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        });
+        RoomDto savedRoom = roomService.saveRoom(new RoomDto(name, capacity, pricePerNight, description), newImages);
 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(savedRoom.getId()).toUri();
         return ResponseEntity.created(uri).body(savedRoom);
@@ -64,19 +54,7 @@ public class RoomController {
                                  @RequestParam("pricePerNight") int pricePerNight,
                                  @RequestParam("description") String description,
                                  @RequestPart("newImages") List<MultipartFile> newImages){
-        RoomDto roomDto = new RoomDto();
-        roomDto.setName(name);
-        roomDto.setCapacity(capacity);
-        roomDto.setPricePerNight(pricePerNight);
-        roomDto.setDescription(description);
-        newImages.forEach(image -> {
-            try {
-                imageService.saveFile(image, name, id);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        });
-        return ResponseEntity.ok(roomService.replaceRoom(id, roomDto));
+        return ResponseEntity.ok(roomService.replaceRoom(id, name,capacity,pricePerNight,description, newImages));
     }
 
     @DeleteMapping("/{id}")

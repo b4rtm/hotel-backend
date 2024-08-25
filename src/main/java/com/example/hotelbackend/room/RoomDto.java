@@ -28,4 +28,5 @@ public class RoomDto {
         this.pricePerNight = pricePerNight;
         this.description = description;
     }
+
 }
