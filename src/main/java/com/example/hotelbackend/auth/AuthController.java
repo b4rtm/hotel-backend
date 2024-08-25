@@ -7,10 +7,8 @@ import com.example.hotelbackend.customer.CustomerDto;
 import com.example.hotelbackend.customer.CustomerService;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
@@ -47,36 +45,25 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> loginUser(@RequestBody AuthenticationRequestDto request) {
-        try {
-            authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(request.username(), request.password())
-            );
-        } catch (BadCredentialsException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("user unauthorized");
-        }
+    public ResponseEntity<String> loginUser(@RequestBody AuthenticationRequestDto request) throws JSONException {
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(request.username(), request.password())
+        );
+
         UserDetails userDetails = authService.loadUserByUsername(request.username());
         String token = jwtUtil.generateToken(userDetails);
 
-        JSONObject tokenResponse;
-        try {
-            tokenResponse = new JSONObject("{\"token\": \"" + token + "\"}");
-        } catch (JSONException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("json problem");
-        }
+        JSONObject tokenResponse = new JSONObject("{\"token\": \"" + token + "\"}");
+
         return ResponseEntity.ok(tokenResponse.toString());
     }
 
-    @PostMapping("/google-login")
-    public ResponseEntity<String> LoginWithGoogleOauth2(@RequestBody IdTokenRequestDto requestBody) {
-        String authToken = authService.loginOAuthGoogle(requestBody);
 
-        JSONObject tokenResponse;
-        try {
-            tokenResponse = new JSONObject("{\"token\": \"" + authToken + "\"}");
-        } catch (JSONException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("json problem");
-        }
+    @PostMapping("/google-login")
+    public ResponseEntity<String> LoginWithGoogleOauth2(@RequestBody IdTokenRequestDto requestBody) throws JSONException {
+        String authToken = authService.loginOAuthGoogle(requestBody);
+        JSONObject tokenResponse = new JSONObject("{\"token\": \"" + authToken + "\"}");
+
         return ResponseEntity.ok(tokenResponse.toString());
     }
 }
