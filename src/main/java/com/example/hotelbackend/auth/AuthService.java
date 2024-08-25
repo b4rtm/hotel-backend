@@ -55,7 +55,7 @@ public class AuthService {
     }
 
     public String loginOAuthGoogle(IdTokenRequestDto requestBody) {
-        Customer customer = verifyIDToken(requestBody.getIdToken());
+        Customer customer = verifyIDToken(requestBody.idToken());
         if (customer == null) {
             throw new IllegalArgumentException();
         }
