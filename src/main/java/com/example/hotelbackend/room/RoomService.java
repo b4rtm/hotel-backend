@@ -36,7 +36,7 @@ public class RoomService {
         this.reviewDtoMapper = reviewDtoMapper;
     }
 
-    List<RoomDto> getRooms() {
+    public List<RoomDto> getRooms() {
         return roomRepository.findAll().stream().map(room -> {
             RoomDto roomDto = roomDtoMapper.map(room);
             List<ReviewDto> reviews = reviewService.getReviewsByRoomId(room.getId()).stream()
@@ -56,14 +56,14 @@ public class RoomService {
         return roomDto;
     }
 
-    RoomDto saveRoom(RoomDto roomDto, List<MultipartFile> newImages){
+    public RoomDto saveRoom(RoomDto roomDto, List<MultipartFile> newImages){
         Room room = roomDtoMapper.map(roomDto);
         Room savedRoom = roomRepository.save(room);
         newImages.forEach(image -> imageService.saveFile(image, room.getName(), savedRoom.getId()));
         return roomDtoMapper.map(savedRoom);
     }
 
-    RoomDto replaceRoom(Long roomId, String name, int capacity, int pricePerNight, String description, List<MultipartFile> newImages){
+    public RoomDto replaceRoom(Long roomId, String name, int capacity, int pricePerNight, String description, List<MultipartFile> newImages){
         RoomDto roomDto = new RoomDto();
         roomDto.setName(name);
         roomDto.setCapacity(capacity);
@@ -86,7 +86,7 @@ public class RoomService {
         allPaths.forEach(path -> imageService.deleteRoomImage(id,path));
     }
 
-    void deleteRoom(Long id){
+    public void deleteRoom(Long id){
         deleteAllRoomImages(id);
         roomRepository.deleteById(id);
     }

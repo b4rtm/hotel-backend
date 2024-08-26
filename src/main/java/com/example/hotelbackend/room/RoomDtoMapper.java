@@ -26,7 +26,7 @@ public class RoomDtoMapper {
         return roomDto;
     }
 
-    Room map(RoomDto dto){
+    public Room map(RoomDto dto){
         Room room = new Room();
         room.setName(dto.getName());
         room.setCapacity(dto.getCapacity());
