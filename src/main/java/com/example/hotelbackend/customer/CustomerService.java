@@ -92,7 +92,7 @@ public class CustomerService {
     }
 
     CustomerDto replaceCustomer(Long customerId, CustomerDto customerDto){
-        Customer existingCustomer = customerRepository.findById(customerId).get();
+        Customer existingCustomer = customerRepository.findById(customerId).orElseThrow(() -> new CustomerNotFoundException("Customer not found with id: " + customerId));
         Customer customer = customerDtoMapper.map(customerDto);
         customer.setPassword(existingCustomer.getPassword());
         customer.setRole(existingCustomer.getRole());
