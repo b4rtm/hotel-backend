@@ -40,6 +40,7 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.POST, "/rooms").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.PUT, "/rooms/**").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.DELETE, "/rooms/**").hasRole("ADMIN")
+                .requestMatchers("/employees/**").hasRole("ADMIN")
                 .requestMatchers("/auth/**").permitAll()
                 .requestMatchers("/rooms/**").permitAll()
                 .requestMatchers("/images/**").permitAll()
