@@ -39,4 +39,12 @@ public class ScheduleController {
         return ResponseEntity.ok(scheduleService.replaceSchedule(id, schedule));
     }
 
+    @PostMapping("/emails")
+    ResponseEntity<String> sendSchedulesByEmail(@RequestBody SendSchedulesEmailRequest emailRequest){
+        for(Long id : emailRequest.employeeIds()) {
+            scheduleService.sendScheduleToEmployee(id, emailRequest.startDate());
+        }
+        return ResponseEntity.ok("Emails sent successfully");
+    }
+
 }

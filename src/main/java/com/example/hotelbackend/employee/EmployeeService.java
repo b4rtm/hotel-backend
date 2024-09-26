@@ -24,6 +24,10 @@ public class EmployeeService {
         return employeeRepository.findAll().stream().map(employeeDtoMapper::map).toList();
     }
 
+    public Employee getEmployeeById(Long id){
+        return employeeRepository.findById(id).orElseThrow(() -> new EmployeeNotFoundException("Employee not found with id: " +  id));
+    }
+
     public void deleteEmployee(Long id) {
         employeeRepository.deleteById(id);
     }
