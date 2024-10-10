@@ -24,4 +24,5 @@ public class Room {
 
     private String description;
 
+    private String descriptionEn;
 }

@@ -114,6 +114,7 @@ class RoomServiceTest {
         int capacity = 4;
         int pricePerNight = 100;
         String description = "Updated description";
+        String descriptionEn = "Updated description in en";
 
         Room room = new Room();
         room.setId(roomId);
@@ -126,7 +127,7 @@ class RoomServiceTest {
         when(roomRepository.save(room)).thenReturn(room);
         when(roomDtoMapper.map(room)).thenReturn(roomDto);
 
-        RoomDto updatedRoom = roomService.replaceRoom(roomId, name, capacity, pricePerNight, description, List.of(image));
+        RoomDto updatedRoom = roomService.replaceRoom(roomId, name, capacity, pricePerNight, description, descriptionEn, List.of(image));
 
         assertNotNull(updatedRoom);
         verify(roomDtoMapper, times(1)).map(any(RoomDto.class));

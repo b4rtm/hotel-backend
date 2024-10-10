@@ -18,15 +18,17 @@ public class RoomDto {
     private int pricePerNight;
     private List<String> imagePaths;
     private String description;
+    private String descriptionEn;
     private List<BookingDateDto> bookings;
     private List<ReviewDto> reviews;
 
 
-    public RoomDto(String name, int capacity, int pricePerNight, String description) {
+    public RoomDto(String name, int capacity, int pricePerNight, String description, String descriptionEn) {
         this.name = name;
         this.capacity = capacity;
         this.pricePerNight = pricePerNight;
         this.description = description;
+        this.descriptionEn = descriptionEn;
     }
 
 }

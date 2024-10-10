@@ -35,8 +35,9 @@ public class RoomController {
                                        @RequestParam("capacity") int capacity,
                                        @RequestParam("pricePerNight") int pricePerNight,
                                        @RequestParam("description") String description,
+                                       @RequestParam("descriptionEn") String descriptionEn,
                                        @RequestPart("newImages") List<MultipartFile> newImages){
-        RoomDto savedRoom = roomService.saveRoom(new RoomDto(name, capacity, pricePerNight, description), newImages);
+        RoomDto savedRoom = roomService.saveRoom(new RoomDto(name, capacity, pricePerNight, description, descriptionEn), newImages);
 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(savedRoom.getId()).toUri();
         return ResponseEntity.created(uri).body(savedRoom);
@@ -53,8 +54,9 @@ public class RoomController {
                                  @RequestParam("capacity") int capacity,
                                  @RequestParam("pricePerNight") int pricePerNight,
                                  @RequestParam("description") String description,
-                                 @RequestPart("newImages") List<MultipartFile> newImages){
-        return ResponseEntity.ok(roomService.replaceRoom(id, name,capacity,pricePerNight,description, newImages));
+                                 @RequestParam("descriptionEn") String descriptionEn,
+                                 @RequestPart(value = "newImages", required = false) List<MultipartFile> newImages){
+        return ResponseEntity.ok(roomService.replaceRoom(id, name,capacity,pricePerNight,description, descriptionEn, newImages));
     }
 
     @DeleteMapping("/{id}")

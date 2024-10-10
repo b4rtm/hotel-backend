@@ -63,13 +63,15 @@ public class RoomService {
         return roomDtoMapper.map(savedRoom);
     }
 
-    public RoomDto replaceRoom(Long roomId, String name, int capacity, int pricePerNight, String description, List<MultipartFile> newImages){
+    public RoomDto replaceRoom(Long roomId, String name, int capacity, int pricePerNight, String description, String descriptionEn, List<MultipartFile> newImages){
         RoomDto roomDto = new RoomDto();
         roomDto.setName(name);
         roomDto.setCapacity(capacity);
         roomDto.setPricePerNight(pricePerNight);
         roomDto.setDescription(description);
-        newImages.forEach(image -> imageService.saveFile(image, name, roomId));
+        roomDto.setDescriptionEn(descriptionEn);
+        if(newImages != null)
+            newImages.forEach(image -> imageService.saveFile(image, name, roomId));
 
         Room room = roomDtoMapper.map(roomDto);
         room.setId(roomId);
