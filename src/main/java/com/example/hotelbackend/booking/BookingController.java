@@ -23,7 +23,6 @@ public class BookingController {
     @PostMapping
     public ResponseEntity<String> bookRoom(@RequestBody BookingWithIdsDto booking){
         Long bookingId = bookingService.saveBooking(booking);
-        bookingService.sendEmailConfirmation(bookingId);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(bookingId).toUri();
         return ResponseEntity.created(uri).body(bookingId.toString());
     }
@@ -61,6 +60,7 @@ public class BookingController {
     @PatchMapping("/{id}/approve")
     public ResponseEntity<Booking> approveBooking(@PathVariable Long id) {
         Booking updatedBooking = bookingService.approveBooking(id);
+        bookingService.sendEmailConfirmation(id);
         return ResponseEntity.ok(updatedBooking);
     }
 }
