@@ -3,6 +3,7 @@ package com.example.hotelbackend.schedule;
 import com.example.hotelbackend.employee.Employee;
 import com.example.hotelbackend.employee.EmployeeService;
 import com.example.hotelbackend.smtp.ClientSMTP;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -43,7 +44,7 @@ public class ScheduleService {
 
     public void sendScheduleToEmployee(Long id, LocalDateTime startDate) {
         Employee employee = employeeService.getEmployeeById(id);
-        List<Schedule> schedules = scheduleRepository.findByEmployeeIdAndStartDateGreaterThanEqual(id, startDate);
+        List<Schedule> schedules = scheduleRepository.findByEmployeeIdAndStartDateGreaterThanEqual(id, startDate, Sort.by(Sort.Order.asc("startDate")));
         String subject = "Grafik dla " + employee.getName() + " " + employee.getSurname();
 
         StringBuilder text = new StringBuilder("Oto twój grafik od dnia " + startDate.toString().substring(0,10) + ":\n");

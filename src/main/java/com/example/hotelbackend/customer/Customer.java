@@ -1,5 +1,7 @@
 package com.example.hotelbackend.customer;
 
+import com.example.hotelbackend.auth.verification_token.VerificationToken;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.Getter;
@@ -11,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @NoArgsConstructor
@@ -47,6 +50,11 @@ public class Customer implements UserDetails {
     private Role role;
 
     private boolean enabled;
+
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.REMOVE)
+    @JsonIgnore
+    private Set<VerificationToken> verificationTokens;
+
 
     @Override
     public String getUsername() {
